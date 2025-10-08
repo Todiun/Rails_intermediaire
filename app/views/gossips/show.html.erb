@@ -1,0 +1,15 @@
+<h1><%= @gossip.title %></h1>
+
+<p><%= @gossip.content %></p>
+
+<p>
+  <strong>Auteur :</strong>
+  <%= link_to @gossip.author.first_name, user_path(@gossip.author) %>
+</p>
+
+<p>
+  <strong>Date de création :</strong>
+  <%= @gossip.created_at.strftime("%d/%m/%Y à %H:%M") %>
+</p>
+
+<%= link_to "Retour à la liste des potins", root_path, class: "btn btn-secondary mt-3" %>
