@@ -1,13 +1,19 @@
-<h1>Bienvenue sur The Gossip Project</h1>
+<h1 class="mb-4">Bienvenue sur The Gossip Project</h1>
 <p>Découvre les derniers potins de la ville 😎</p>
-<div>
 
-
-<ul>
-    <% @gossips.each do |gossip| %>
-        <li>
-        <strong><%= gossip.author.first_name %></strong>
-    <%= link_to gossip.title, gossip_path(gossip) %>
-    </li>
-    <% end %>
-</ul>
+<div class="row">
+  <% @gossips.each do |gossip| %>
+    <div class="col-md-4 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title"><%= link_to gossip.title, gossip_path(gossip) %></h5>
+          <h6 class="card-subtitle mb-2 text-muted">Par <%= gossip.author.first_name %></h6>
+          <p class="card-text"><%= truncate(gossip.content, length: 100) %></p>
+        </div>
+        <div class="card-footer text-muted">
+          Créé le <%= gossip.created_at.strftime("%d/%m/%Y") %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
