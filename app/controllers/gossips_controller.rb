@@ -9,11 +9,18 @@ class GossipsController < ApplicationController
   end
 
   def create
-    # On crée un nouvel objet Gossip avec les données du formulaire
+    # On récupère (ou crée) l'utilisateur "anonymous" pour éviter les erreurs
+    anonymous_user = User.find_or_create_by(first_name: "anonymous") do |u|
+      u.last_name = "user"
+      u.email = "anonymous@example.com"
+      u.city = City.first || City.create(name: "Paris", zip_code: "75000")
+    end
+
+    # On crée le nouveau potin
     @gossip = Gossip.new(
       title: params[:title],
       content: params[:content],
-      author: User.find_by(first_name: "anonymous") # L’auteur “anonymous”
+      author: anonymous_user
     )
 
     if @gossip.save
