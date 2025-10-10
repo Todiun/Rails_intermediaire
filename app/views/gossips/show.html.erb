@@ -1,15 +1,11 @@
 <h1><%= @gossip.title %></h1>
-
 <p><%= @gossip.content %></p>
+<p><strong>Auteur :</strong> <%= link_to @gossip.author.first_name, user_path(@gossip.author) %></p>
 
-<p>
-  <strong>Auteur :</strong>
-  <%= link_to @gossip.author.first_name, user_path(@gossip.author) %>
-</p>
+<%= link_to "Modifier ce potin", edit_gossip_path(@gossip), class: "btn btn-warning" %>
+<%= link_to "Supprimer ce potin", gossip_path(@gossip),
+    method: :delete,
+    data: { confirm: "Es-tu sûr de vouloir supprimer ce potin ?" },
+    class: "btn btn-danger" %>
 
-<p>
-  <strong>Date de création :</strong>
-  <%= @gossip.created_at.strftime("%d/%m/%Y à %H:%M") %>
-</p>
-
-<%= link_to "Retour à la liste des potins", root_path, class: "btn btn-secondary mt-3" %>
+<%= link_to "⬅ Retour", gossips_path, class: "btn btn-secondary mt-3" %>

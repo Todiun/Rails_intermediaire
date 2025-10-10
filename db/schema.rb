@@ -10,12 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_08_070320) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_10_023146) do
   create_table "cities", force: :cascade do |t|
     t.string "name"
     t.string "zip_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.integer "gossip_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gossip_id"], name: "index_comments_on_gossip_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "gossip_tags", force: :cascade do |t|
@@ -36,6 +46,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_070320) do
     t.index ["author_id"], name: "index_gossips_on_author_id"
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "gossip_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gossip_id"], name: "index_likes_on_gossip_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -54,8 +73,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_070320) do
     t.index ["city_id"], name: "index_users_on_city_id"
   end
 
+  add_foreign_key "comments", "gossips"
+  add_foreign_key "comments", "users"
   add_foreign_key "gossip_tags", "gossips"
   add_foreign_key "gossip_tags", "tags"
   add_foreign_key "gossips", "users", column: "author_id"
+  add_foreign_key "likes", "gossips"
+  add_foreign_key "likes", "users"
   add_foreign_key "users", "cities"
 end
